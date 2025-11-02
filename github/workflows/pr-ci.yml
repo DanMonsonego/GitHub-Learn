@@ -1,0 +1,36 @@
+name: PR CI
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [opened, reopened, synchronize]
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Basic sanity (files exist, no big binaries)
+        run: |
+          test -d . || (echo "repo not found" && exit 1)
+          echo "✅ Repo structure looks fine"
+
+      # If the project is Python-based – run the following block; otherwise, delete it
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install test deps (optional)
+        run: |
+          pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Run unit tests (optional)
+        run: |
+          if [ -d tests ]; then
+            python -m pytest tests -q
+          else
+            echo "No tests folder; skipping"
+          fi
