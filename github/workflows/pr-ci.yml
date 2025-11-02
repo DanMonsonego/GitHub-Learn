@@ -18,7 +18,7 @@ jobs:
           test -d . || (echo "repo not found" && exit 1)
           echo "✅ Repo structure looks fine"
 
-      # אם הפרויקט בפייתון – הפעל את הבלוק הבא; אם לא, מחק
+      # If the project is Python-based – run the following block; otherwise, delete it
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
