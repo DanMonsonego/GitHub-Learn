@@ -30,7 +30,7 @@ jobs:
       - name: Run unit tests (optional)
         run: |
           if [ -d tests ]; then
-            python -m pytest -q
+            python -m pytest tests -q
           else
             echo "No tests folder; skipping"
           fi
